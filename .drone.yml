@@ -21,7 +21,7 @@ pipeline:
     skip_tls_verify: true
     chart: ./chart/generic/
     # TODO: add release name
-    release: infra_test
+    release: infratest
     # TODO: add image
     values: 'basedomain=staging.k8s.mongodb.cc,image.repository=quay.io/mongodb/infra_test,image.tag=latest'
     secrets: [ api_server, kubernetes_token ]
