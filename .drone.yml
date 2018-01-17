@@ -1,0 +1,30 @@
+---
+pipeline:
+  build:
+    image: python
+    commands:
+      - pip install -r requirements.txt nose
+      - nosetests
+
+  publish:
+    image: plugins/docker
+    registry: quay.io
+    # TODO: add image
+    repo: quay.io/mongodb/infra_test
+    tags:
+    - ${DRONE_COMMIT_SHA:0:7}
+    - latest
+    secrets: [ docker_username, docker_password ]
+
+  deploy:
+    image: quay.io/ipedrazas/drone-helm
+    skip_tls_verify: true
+    chart: ./chart/generic/
+    # TODO: add release name
+    release: infra_test
+    # TODO: add image
+    values: 'basedomain=staging.k8s.mongodb.cc,image.repository=quay.io/mongodb/infra_test,image.tag=latest'
+    secrets: [ api_server, kubernetes_token ]
+    # TODO: specify namespace
+    tiller_ns: tools
+    namespace: tools
