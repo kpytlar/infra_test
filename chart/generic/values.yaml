@@ -1,0 +1,37 @@
+replicaCount: 2
+image:
+  pullPolicy: IfNotPresent
+#
+# Configuring environment variables.
+#
+# env:
+#   ENV_VAR: value
+#
+# Configuring secret environment variables.
+# Each item in `envSecret` references a Kubernetes Secret.
+# These Secrets need to exist before populating `envSecret`.
+#   Example:
+#     kubectl create secret generic app-secrets --from-literal=secret-data-key='secret_value'
+#
+# envSecret:
+#   # The name of the Kubernetes Secret
+# - name: app-secrets
+#   # A mapping of environment variables to data keys in the Kubernetes Secret
+#   data:
+#     SECRET_VAR: secret-data-key
+#
+service:
+  name: generic
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 8080
+ingress:
+  enabled: true
+  tls: false
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
